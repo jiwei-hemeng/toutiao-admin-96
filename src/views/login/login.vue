@@ -1,10 +1,5 @@
 <template>
   <div class="login-container">
-    <!--
-      el-form 表单组件
-      每个表单项都必须使用 el-form-item 组件包裹
-    -->
-
     <div class="login-form-wrap">
       <div class="login-head">
         <div class="logo"></div>
@@ -40,7 +35,6 @@ export default {
         code: '246810', // 验证码
         agree: false // 是否同意协议
       },
-      // checked: false, // 是否同意协议的选中状态
       loginLoading: false, // 登录的 loading 状态
       formRules: {
         mobile: [
@@ -53,9 +47,6 @@ export default {
         ],
         agree: [
           {
-            // 自定义校验规则：https://element.eleme.cn/#/zh-CN/component/form#zi-ding-yi-xiao-yan-gui-ze
-            // 验证通过：callback()
-            // 验证失败：callback(new Error('错误消息'))
             validator: (rule, value, callback) => {
               if (value) {
                 callback()
@@ -63,7 +54,6 @@ export default {
                 callback(new Error('请同意用户协议'))
               }
             },
-            // message: '请勾选同意用户协议',
             trigger: 'change'
           }
         ]

@@ -11,8 +11,8 @@
         <i class="el-icon-arrow-down el-icon--right"></i>
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>设置</el-dropdown-item>
-        <el-dropdown-item>退出</el-dropdown-item>
+        <el-dropdown-item>个人设置</el-dropdown-item>
+        <el-dropdown-item>退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -38,8 +38,6 @@ export default {
   },
   mounted () {},
   methods: {
-    // 除了登录接口，其它所有接口都需要授权才能请求使用
-    // 或者说，除了登录接口，其它接口都需要提供你的身份令牌才能获取数据
     loadUserProfile () {
       getUserProfile().then(res => {
         this.user = res.data.data
@@ -57,5 +55,16 @@ export default {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ccc;
+}
+.avatar-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
 }
 </style>
