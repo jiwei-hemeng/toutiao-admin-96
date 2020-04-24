@@ -1,11 +1,19 @@
 <template>
-<div id="app">
+  <div id="app">
+    <!-- 路由出口 -->
     <router-view/>
-</div>
+  </div>
 </template>
+
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {}
+  },
+  methods: {},
+  created () {}
 }
 </script>
-<style scoped lang="less"></style>
+
+<style lang="less"></style>
