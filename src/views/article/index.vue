@@ -158,6 +158,7 @@ export default {
       rangeDate: null,
       pageSize: 10,
       totalCount: 0,
+      page: 1, // 当前页码
       loading: true,
       status: null
     }

@@ -36,14 +36,14 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>设置</el-dropdown-item>
+            <el-dropdown-item>个人设置</el-dropdown-item>
             <!--
               组件默认是不识别原生事件的，除非内部做了处理
               https://cn.vuejs.org/v2/guide/components-custom-events.html#%E5%B0%86%E5%8E%9F%E7%94%9F%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A%E5%88%B0%E7%BB%84%E4%BB%B6
              -->
             <el-dropdown-item
               @click.native="onLogout"
-            >退出</el-dropdown-item>
+            >安全退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
