@@ -47,7 +47,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="loadArticles(1)">查询</el-button>
+          <el-button type="primary" @click="loadArticles(1)" :disabled="loading">查询</el-button>
         </el-form-item>
       </el-form>
       <!-- /数据筛选表单 -->
@@ -64,6 +64,7 @@
         style="width: 100%"
         class="list-table"
         size="mini"
+        v-loading="loading"
       >
         <el-table-column
           prop="date"
@@ -169,7 +170,7 @@ export default {
   },
   mounted () {},
   methods: {
-    loadArticles (page = 1) {
+    loadArticles (page) {
       this.loading = true
       getArticles({
         page: page,
