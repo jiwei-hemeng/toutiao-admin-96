@@ -155,29 +155,31 @@ export default {
     },
 
     onPublish (draft = false) {
-      // 找到数据接口
-      // 封装请求方法
-      // 请求提交表单
-      const articleId = this.$route.query.id
-      if (articleId) {
-        updateArticle(articleId, this.article, draft).then(res => {
-          this.$message({
-            message: `${draft ? '存入草稿' : '发布'}成功`,
-            type: 'success'
+      this.$refs['publist-form'].validate(valid => {
+        if (!valid) {
+          return
+        }
+        const articleId = this.$route.query.id
+        if (articleId) {
+          updateArticle(articleId, this.article, draft).then(res => {
+            this.$message({
+              message: `${draft ? '存入草稿' : '发布'}成功`,
+              type: 'success'
+            })
+            // 跳转到内容管理页面
+            this.$router.push('/article')
           })
-          // 跳转到内容管理页面
-          this.$router.push('/article')
-        })
-      } else {
-        addArticle(this.article, draft).then(res => {
-          this.$message({
-            message: `${draft ? '存入草稿' : '发布'}成功`,
-            type: 'success'
+        } else {
+          addArticle(this.article, draft).then(res => {
+            this.$message({
+              message: `${draft ? '存入草稿' : '发布'}成功`,
+              type: 'success'
+            })
+            // 跳转到内容管理页面
+            this.$router.push('/article')
           })
-          // 跳转到内容管理页面
-          this.$router.push('/article')
-        })
-      }
+        }
+      })
     },
     loadArticle () {
       getArticle(this.$route.query.id).then(res => {
