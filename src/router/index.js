@@ -12,6 +12,7 @@ import Home from '@/views/home/'
 import Layout from '@/views/layout/'
 import Article from '@/views/article/'
 import AddArticle from '@/views/publish/'
+import ImageIndex from '@/views/image/'
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,11 @@ const routes = [
         path: '/publish',
         name: 'AddArticle',
         component: AddArticle
+      },
+      {
+        path: '/image',
+        name: 'imageIndex',
+        component: ImageIndex
       }
     ]
   }
