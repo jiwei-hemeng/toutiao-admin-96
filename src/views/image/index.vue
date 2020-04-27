@@ -7,8 +7,6 @@
           <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
           <el-breadcrumb-item>素材管理</el-breadcrumb-item>
         </el-breadcrumb>
-        <!-- /面包屑路径导航 -->
-        <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
       </div>
       <div class="action-head">
         <el-radio-group
@@ -33,20 +31,30 @@
       <el-row :gutter="10">
         <el-col
           :xs="12"
-          :sm="6"
+          :sm="8"
           :md="6"
           :lg="4"
           v-for="(img, index) in images"
           :key="index"
         >
           <el-image
-            style="height: 100px"
+            style="height: 150px"
             :src="img.url"
             fit="cover"
           ></el-image>
         </el-col>
       </el-row>
       <!-- /素材列表 -->
+      <!-- 列表分页 -->
+      <el-pagination
+        layout="prev, pager, next"
+        background
+        :total="totalCount"
+        :page-size="pageSize"
+        :current-page.sync="page"
+        @current-change="onCurrentChange">
+      </el-pagination>
+      <!-- /列表分页 -->
     </el-card>
 
     <el-dialog
@@ -54,12 +62,7 @@
       :visible.sync="dialogUploadVisible"
       :append-to-body="true"
     >
-      <!--
-        upload 组件本身就支持请求提交上传操作，说白了你使用它不用自己去发请求，它会自己发。
-        请求方法：默认就是 POST
-        请求路径：action，必须写完整路径
-        请求头：headers
-       -->
+
       <el-upload
         class="upload-demo"
         drag
@@ -93,26 +96,32 @@ export default {
       dialogUploadVisible: false,
       uploadHeaders: {
         Authorization: `Bearer ${user.token}`
-      }
+      },
+      page: 1,
+      pageSize: 10,
+      totalCount: 0
     }
   },
   computed: {},
   watch: {},
   created () {
-    this.loadImages(false)
+    this.loadImages(1, false)
   },
   mounted () {},
   methods: {
-    loadImages (collect = false) {
+    loadImages (page, collect = false) {
       getImages({
+        page,
+        per_page: this.pageSize,
         collect
       }).then(res => {
         this.images = res.data.data.results
+        this.totalCount = res.data.data.total_count
       })
     },
 
     onCollectChange (value) {
-      this.loadImages(value)
+      this.loadImages(1, value)
     },
 
     onUploadSuccess () {
@@ -121,6 +130,9 @@ export default {
 
       // 更新素材列表
       this.loadImages(false)
+    },
+    onCurrentChange (page) {
+      this.loadImages(page)
     }
   }
 }

@@ -83,6 +83,7 @@ export default {
         new Text(),
         new Paragraph(),
         new Heading({ level: 3 }),
+        new TextColor(),
         new Bold({ bubble: true }), // 在气泡菜单中渲染菜单按钮
         new Image({
           // 默认会把图片生成 base64 字符串和内容存储在一起，如果需要自定义图片上传
@@ -107,10 +108,9 @@ export default {
         new OrderedList(), // 有序列表
         new TodoItem(),
         new TodoList(),
-        new Fullscreen(),
         new Preview(),
         new CodeBlock(),
-        new TextColor()
+        new Fullscreen()
       ],
       fromRules: {
         title: [
