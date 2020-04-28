@@ -46,7 +46,7 @@
           <div class="colection">
             <!-- <i class="icon" @click="addLove" :class="{'el-icon-star-off': icon, 'el-icon-star-on': !icon}"></i> -->
             <i class="icon" @click="addLove(img.id, img.is_collected)" :class="img.is_collected?'el-icon-star-on':'el-icon-star-off'"></i>
-            <i class="icon el-icon-delete"></i>
+            <i class="icon el-icon-delete" @click="delImages(img.id)"></i>
           </div>
         </el-col>
       </el-row>
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { getImages, addLove } from '@/api/image'
+import { getImages, addLove, delImage } from '@/api/image'
 
 export default {
   name: 'ImageIndex',
@@ -146,12 +146,22 @@ export default {
           message: '操作成功',
           type: 'success'
         })
-        this.loadImages(false)
+        this.loadImages(1, false)
+        this.$router.push('/image')
       }).catch(() => {
         this.$message({
           message: '操作失败',
           type: 'info'
         })
+      })
+    },
+    delImages (id) {
+      delImage(id).then(() => {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+        this.loadImages(1, false)
       })
     }
   }

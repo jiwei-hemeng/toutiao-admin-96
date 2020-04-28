@@ -39,3 +39,14 @@ export const addLove = (collect, target) => {
     }
   })
 }
+
+/*
+* 删除图片素材
+*/
+
+export const delImage = (target) => {
+  return request({
+    method: 'DELETE',
+    url: `/mp/v1_0/user/images/${target}`
+  })
+}
