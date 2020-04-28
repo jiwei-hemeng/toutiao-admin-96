@@ -13,6 +13,7 @@ import Layout from '@/views/layout/'
 import Article from '@/views/article/'
 import AddArticle from '@/views/publish/'
 import ImageIndex from '@/views/image/'
+import Comment from '@/views/Comment/'
 
 Vue.use(VueRouter)
 
@@ -55,6 +56,11 @@ const routes = [
         path: '/image',
         name: 'imageIndex',
         component: ImageIndex
+      },
+      {
+        path: '/comment',
+        name: 'Comment',
+        component: Comment
       }
     ]
   }

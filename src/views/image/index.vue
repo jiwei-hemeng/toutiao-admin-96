@@ -45,7 +45,7 @@
           ></el-image>
           <div class="colection">
             <!-- <i class="icon" @click="addLove" :class="{'el-icon-star-off': icon, 'el-icon-star-on': !icon}"></i> -->
-            <i class="icon" @click="addLove(img.id, img.is_collected)" :class="img.is_collected?'el-icon-star-on':'el-icon-star-off'"></i>
+            <i class="icon" @click="addLove(img)" :class="img.is_collected?'el-icon-star-on':'el-icon-star-off'"></i>
             <i class="icon el-icon-delete" @click="delImages(img.id)"></i>
           </div>
         </el-col>
@@ -140,14 +140,13 @@ export default {
     onCurrentChange (page) {
       this.loadImages(page)
     },
-    addLove (id, collect) {
-      addLove(!collect, id).then(() => {
+    addLove (img) {
+      addLove(!img.is_collected, img.id).then(() => {
         this.$message({
           message: '操作成功',
           type: 'success'
         })
-        this.loadImages(1, false)
-        this.$router.push('/image')
+        img.is_collected = !img.is_collected
       }).catch(() => {
         this.$message({
           message: '操作失败',
@@ -161,7 +160,7 @@ export default {
           message: '删除成功',
           type: 'success'
         })
-        this.loadImages(1, false)
+        this.loadImages(1)
       })
     }
   }
@@ -178,9 +177,9 @@ export default {
   position: relative;
   .colection {
     position: absolute;
-    left: 0;
+    left: 5px;
     bottom: 0;
-    right: 0;
+    right: 5px;
     height: 30px;
     background-color: #fff;
     opacity: .5;
