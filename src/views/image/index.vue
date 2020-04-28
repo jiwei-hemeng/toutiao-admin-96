@@ -36,12 +36,18 @@
           :lg="4"
           v-for="(img, index) in images"
           :key="index"
+          class="image"
         >
           <el-image
             style="height: 150px"
             :src="img.url"
             fit="cover"
           ></el-image>
+          <div class="colection">
+            <!-- <i class="icon" @click="addLove" :class="{'el-icon-star-off': icon, 'el-icon-star-on': !icon}"></i> -->
+            <i class="icon" @click="addLove(img.id, img.is_collected)" :class="img.is_collected?'el-icon-star-off':'el-icon-star-on'"></i>
+            <i class="icon el-icon-delete"></i>
+          </div>
         </el-col>
       </el-row>
       <!-- /素材列表 -->
@@ -82,7 +88,7 @@
 </template>
 
 <script>
-import { getImages } from '@/api/image'
+import { getImages, addLove } from '@/api/image'
 
 export default {
   name: 'ImageIndex',
@@ -133,6 +139,20 @@ export default {
     },
     onCurrentChange (page) {
       this.loadImages(page)
+    },
+    addLove (id, collect) {
+      alert(111111111111111)
+      addLove(!collect, id).then(() => {
+        this.$message({
+          message: '操作成功',
+          type: 'success'
+        })
+      }).catch(() => {
+        this.$message({
+          message: '操作失败',
+          type: 'info'
+        })
+      })
     }
   }
 }
@@ -143,5 +163,26 @@ export default {
   padding-bottom: 20px;
   display: flex;
   justify-content: space-between;
+}
+.image {
+  position: relative;
+  .colection {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 30px;
+    background-color: #fff;
+    opacity: .5;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .icon {
+      color: red;
+      opacity: 1;
+      z-index: 9999;
+      display: inline-block;
+    }
+  }
 }
 </style>

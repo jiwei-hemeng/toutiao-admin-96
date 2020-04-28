@@ -25,3 +25,17 @@ export const getImages = params => {
     params
   })
 }
+
+/*
+* 收藏图片素材
+*/
+
+export const addLove = (collect, target) => {
+  return request({
+    method: 'PUT',
+    url: `/mp/v1_0/user/images/${target}`,
+    data: {
+      collect
+    }
+  })
+}
