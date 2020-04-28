@@ -56,7 +56,7 @@
         layout="prev, pager, next"
         background
         :total="totalCount"
-        :page-size="pageSize"
+        :page-size.sync="pageSize"
         :current-page.sync="page"
         @current-change="onCurrentChange">
       </el-pagination>
@@ -70,13 +70,14 @@
     >
 
       <el-upload
+        v-if="dialogUploadVisible"
         class="upload-demo"
         drag
         action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"
         :headers="uploadHeaders"
         name="image"
         multiple
-        :show-file-list="false"
+        :show-file-list="ture"
         :on-success="onUploadSuccess"
       >
         <i class="el-icon-upload"></i>
@@ -116,6 +117,7 @@ export default {
   mounted () {},
   methods: {
     loadImages (page, collect = false) {
+      this.page = page
       getImages({
         page,
         per_page: this.pageSize,
@@ -135,7 +137,11 @@ export default {
       this.dialogUploadVisible = false
 
       // 更新素材列表
-      this.loadImages(false)
+      this.loadImages(1, false)
+      this.$message({
+        type: 'success',
+        message: '上传成功'
+      })
     },
     onCurrentChange (page) {
       this.loadImages(page)
@@ -143,15 +149,10 @@ export default {
     addLove (img) {
       addLove(!img.is_collected, img.id).then(() => {
         this.$message({
-          message: '操作成功',
+          message: img.is_collected?'取消收藏成功':'收藏成功',
           type: 'success'
         })
         img.is_collected = !img.is_collected
-      }).catch(() => {
-        this.$message({
-          message: '操作失败',
-          type: 'info'
-        })
       })
     },
     delImages (id) {

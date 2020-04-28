@@ -14,6 +14,7 @@ import Article from '@/views/article/'
 import AddArticle from '@/views/publish/'
 import ImageIndex from '@/views/image/'
 import Comment from '@/views/Comment/'
+import Settings from '@/views/settings/'
 
 Vue.use(VueRouter)
 
@@ -61,6 +62,11 @@ const routes = [
         path: '/comment',
         name: 'Comment',
         component: Comment
+      },
+      {
+        path: '/settings',
+        name: 'settingsIndex',
+        component: Settings
       }
     ]
   }
