@@ -45,7 +45,7 @@
           ></el-image>
           <div class="colection">
             <!-- <i class="icon" @click="addLove" :class="{'el-icon-star-off': icon, 'el-icon-star-on': !icon}"></i> -->
-            <i class="icon" @click="addLove(img.id, img.is_collected)" :class="img.is_collected?'el-icon-star-off':'el-icon-star-on'"></i>
+            <i class="icon" @click="addLove(img.id, img.is_collected)" :class="img.is_collected?'el-icon-star-on':'el-icon-star-off'"></i>
             <i class="icon el-icon-delete"></i>
           </div>
         </el-col>
@@ -141,12 +141,12 @@ export default {
       this.loadImages(page)
     },
     addLove (id, collect) {
-      alert(111111111111111)
       addLove(!collect, id).then(() => {
         this.$message({
           message: '操作成功',
           type: 'success'
         })
+        this.loadImages(false)
       }).catch(() => {
         this.$message({
           message: '操作失败',
