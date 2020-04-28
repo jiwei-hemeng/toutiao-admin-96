@@ -13,7 +13,7 @@ import Layout from '@/views/layout/'
 import Article from '@/views/article/'
 import AddArticle from '@/views/publish/'
 import ImageIndex from '@/views/image/'
-import Comment from '@/views/Comment/'
+import Comment from '@/views/comment/'
 import Settings from '@/views/settings/'
 
 Vue.use(VueRouter)
