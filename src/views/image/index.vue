@@ -149,7 +149,7 @@ export default {
     addLove (img) {
       addLove(!img.is_collected, img.id).then(() => {
         this.$message({
-          message: img.is_collected?'取消收藏成功':'收藏成功',
+          message: img.is_collected ? '取消收藏成功' : '收藏成功',
           type: 'success'
         })
         img.is_collected = !img.is_collected
