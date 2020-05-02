@@ -15,6 +15,7 @@ import AddArticle from '@/views/publish/'
 import ImageIndex from '@/views/image/'
 import Comment from '@/views/comment/'
 import Settings from '@/views/settings/'
+import Fans from '@/views/fans'
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,11 @@ const routes = [
         path: '/settings',
         name: 'settingsIndex',
         component: Settings
+      },
+      {
+        path: '/fans',
+        name: 'FansIndex',
+        component: Fans
       }
     ]
   }

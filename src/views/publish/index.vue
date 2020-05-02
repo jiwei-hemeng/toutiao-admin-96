@@ -30,6 +30,15 @@
             <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
         </el-form-item>
+        <template v-if="article.cover.type > 0">
+          <div class="upload-cover">
+            <upload-cover
+            v-for="(cover, index) in article.cover.type"
+            :key="index" class="cover"
+            v-model="article.cover.images[index]"
+            />
+          </div>
+        </template>
         <el-form-item label="频道" prop="channel_id">
           <el-select v-model="article.channel_id" placeholder="请选择频道">
             <el-option
@@ -59,11 +68,12 @@ import {
 import { ElementTiptap, Doc, Text, Paragraph, Heading, Bold, Underline, Italic, Image, Strike, ListItem, BulletList, OrderedList, TodoItem, TodoList, HorizontalRule, Fullscreen, Preview, CodeBlock, TextColor } from 'element-tiptap'
 import 'element-tiptap/lib/index.css'
 import { uploadImage } from '@/api/image'
-
+import uploadCover from '@/views/publish/components/upload-cover'
 export default {
   name: 'PublishIndex',
   components: {
-    'el-tiptap': ElementTiptap
+    'el-tiptap': ElementTiptap,
+    'upload-cover': uploadCover
   },
   props: {},
   data () {
@@ -73,7 +83,7 @@ export default {
         title: '', // 文章标题
         content: '', // 文章内容
         cover: { // 文章封面
-          type: 0, // 封面类型 -1:自动，0-无图，1-1张，3-3张
+          type: 1, // 封面类型 -1:自动，0-无图，1-1张，3-3张
           images: [] // 封面图片的地址
         },
         channel_id: null
@@ -190,4 +200,22 @@ export default {
 }
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.upload-cover {
+  display: flex;
+  justify-content:start;
+  align-content: center;
+  width: 600px;
+  height: 150px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  .cover {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 120px;
+    height: 100%;
+    margin-right: 20px;
+  }
+}
+</style>

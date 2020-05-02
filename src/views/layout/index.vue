@@ -45,7 +45,7 @@
       </el-header>
       <el-main class="main">
         <!-- 子路由出口 -->
-        <router-view />
+        <router-view class="home-main" />
       </el-main>
     </el-container>
   </el-container>
@@ -144,6 +144,5 @@ export default {
 }
 
 .main {
-  background-color: #e9eef3;
 }
 </style>

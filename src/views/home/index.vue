@@ -22,4 +22,11 @@ export default {
 }
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.home-container {
+  width: 100%;
+  height: 100%;
+  background: url('./welcome.jpg') no-repeat;
+  background-position: center;
+}
+</style>
