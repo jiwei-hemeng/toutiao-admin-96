@@ -142,7 +142,4 @@ export default {
     }
   }
 }
-
-.main {
-}
 </style>
