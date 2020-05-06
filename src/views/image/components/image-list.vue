@@ -214,7 +214,7 @@ export default {
 }
 .selected {
   background: url(./selected.png) no-repeat;
-  background-size: cover;
+  background-size: contain;
   position: absolute;
   left: 0;
   right: 0;

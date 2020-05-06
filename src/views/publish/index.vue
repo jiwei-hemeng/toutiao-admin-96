@@ -210,9 +210,8 @@ export default {
   margin-bottom: 10px;
   padding-left: 20px;
   .cover {
-    display: flex;
-    justify-content: center;
-    align-content: center;
+    // display: flex;
+    // justify-content: center;
     width: 120px;
     height: 100%;
     margin-right: 20px;
