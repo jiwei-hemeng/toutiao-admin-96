@@ -7,15 +7,15 @@ import VueRouter from 'vue-router'
 // 注意：@ 就是 src 路径，后面别忘了写那个斜杠
 // 使用建议：如果加载的资源路径就在当前目录下，那就正常写
 //       如果需要进行父级路径查找的都使用 @
-import Login from '@/views/login/'
-import Home from '@/views/home/'
-import Layout from '@/views/layout/'
-import Article from '@/views/article/'
-import AddArticle from '@/views/publish/'
-import ImageIndex from '@/views/image/'
-import Comment from '@/views/comment/'
-import Settings from '@/views/settings/'
-import Fans from '@/views/fans'
+const Login = () => import('@/views/login/')
+const Home = () => import('@/views/home/')
+const Layout = () => import('@/views/layout/')
+const Article = () => import('@/views/article/')
+const AddArticle = () => import('@/views/publish/')
+const ImageIndex = () => import('@/views/image/')
+const Comment = () => import('@/views/comment/')
+const Settings = () => import('@/views/settings/')
+const Fans = () => import('@/views/fans')
 
 Vue.use(VueRouter)
 

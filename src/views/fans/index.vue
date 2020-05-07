@@ -1,88 +1,156 @@
 <template>
-  <el-card class="box-card">
-    <div slot="header" class="clearfix">
-      <span>粉丝管理</span>
-    </div>
-    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-      <el-tab-pane label="粉丝列表" name="first">
-        <el-table
-        class="fans-table"
-        :data="tableData"
-        stripe
-        style="width: 100%">
-          <el-table-column
-            prop="date"
-            label="日期"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="姓名"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            label="地址">
-          </el-table-column>
-        </el-table>
-        <!-- 列表分页 -->
-        <el-pagination
-          layout="prev, pager, next"
-          background
-          :total="totalCount"
-          :page-size="pageSize"
-          :disabled="loading"
-          :current-page.sync="page"
-          @current-change="onCurrentChange">
-        </el-pagination>
-      <!-- /列表分页 -->
-      </el-tab-pane>
-      <el-tab-pane label="粉丝画像" name="second">粉丝画像</el-tab-pane>
-    </el-tabs>
-  </el-card>
+  <div class="fans-container">
+    <el-card>
+      <div slot="header">
+        <my-bread>粉丝管理</my-bread>
+      </div>
+      <!-- tabs组件 -->
+      <el-tabs v-model="activeName" type="card">
+        <el-tab-pane label="粉丝列表" name="list">
+          <!-- 列表 -->
+          <div class="fans_list">
+            <div class="fans_item" v-for="item in list" :key="item.id.toString()">
+              <el-avatar :size="80" :src="item.photo"></el-avatar>
+              <p>{{item.name}}</p>
+              <el-button type="primary" plain size="small">+关注</el-button>
+            </div>
+          </div>
+          <!-- 分页 -->
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :page-size="reqParams.per_page"
+            :current-page="reqParams.page"
+            @current-change="changePager"
+            :total="total"
+          ></el-pagination>
+        </el-tab-pane>
+        <el-tab-pane label="粉丝画像" name="img">
+          <div ref="main" style="width: 600px;height:400px;"></div>
+        </el-tab-pane>
+      </el-tabs>
+    </el-card>
+  </div>
 </template>
 
 <script>
+import request from '@/utils/request'
+import echarts from 'echarts'
 export default {
-  name: 'FansIndex',
+  name: 'my-fans',
   data () {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
-      activeName: 'first',
-      page: 1,
-      loading: false,
-      pageSize: 10,
-      totalCount: 400
+      // tabs的当前激活选项卡的name属性值
+      activeName: 'img',
+      reqParams: {
+        page: 1,
+        per_page: 24
+      },
+      list: [],
+      total: 0
     }
   },
+  created () {
+    this.getFansList()
+  },
+  // dom生成完毕后会执行的回调函数（钩子函数）
+  mounted () {
+    this.initBar()
+  },
   methods: {
-    handleClick (tab, event) {
-      console.log(tab, event)
+    // 初始化 柱状图
+    async initBar () {
+      const myChart = echarts.init(this.$refs.main)
+      const option = {
+        color: ['#3398DB'],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            // x坐标的刻度说明文字
+            data: [],
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '直接访问',
+            type: 'bar',
+            barWidth: '60%',
+            // 图表的每一个柱子需要数据
+            data: []
+          }
+        ]
+      }
+
+      // 1. 获取后台统计数据
+      const { data: { data } } = await request({
+        url: '/mp/v1_0/statistics/followers',
+        method: 'GET'
+      })
+      // 2. 修改配置项中的数据
+      // data === {age:{le18:200,...}}
+      // xAxis[0].data 追加选项  series[0].data 追加选项
+      for (const key in data.age) {
+        option.xAxis[0].data.push(key.replace('le', '小于').replace('gt', '大于') + '岁')
+        option.series[0].data.push(data.age[key])
+      }
+      // 3. 使用这个配置绘制
+      myChart.setOption(option)
     },
-    onCurrentChange () {
+    // 分页
+    changePager (newPage) {
+      this.reqParams.page = newPage
+      this.getFansList()
+    },
+    // 获取素材列表
+    async getFansList () {
+      const {
+        data: { data }
+      } = await request({
+        url: '/mp/v1_0//followers',
+        method: 'GET',
+        params: this.reqParams
+      })
+      this.list = data.results
+      this.total = data.total_count
     }
   }
 }
 </script>
 
-<style scoped lang="less">
-.fans-table {
-    margin-bottom: 10px;
+<style scoped lang='less'>
+.fans_list {
+  .fans_item {
+    width: 120px;
+    height: 170px;
+    border: 1px dashed #ddd;
+    text-align: center;
+    padding-top: 10px;
+    display: inline-block;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    p {
+      margin: 10px 0;
+    }
+  }
 }
 </style>
